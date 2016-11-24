@@ -11,6 +11,6 @@ int main()
     {
         int m, n;
         cin >> m >> n;
-        cout << (int)(ceil((m - 2) / 3.0) * ceil((n - 2) / 3.0)) << '\n';
+        cout << (m / 3) * (n / 3) << '\n';
     }
 }
