@@ -6,8 +6,8 @@ using namespace std;
 int main()
 {
     string s;
-    string D[2][6] = {{"HELLO","HOLA","HALLO","BONJOUR","CIAO","ZDRAVSTVUJTE"}, 
-                      {"ENGLISH","SPANISH","GERMAN","FRENCH","ITALIAN","RUSSIAN"}};
+    string D[2][7] = {{"HELLO","HOLA","HALLO","BONJOUR","CIAO","ZDRAVSTVUJTE", "UNKNOWN"}, 
+                      {"ENGLISH","SPANISH","GERMAN","FRENCH","ITALIAN","RUSSIAN", "UNKNOWN"}};
     int c = 1;
     while (cin >> s, s != "#")
     {
@@ -15,13 +15,7 @@ int main()
         for (;i < 6; ++i)
             if (D[0][i] == s)
                 break;
-        
-        cout << "Case " << c++ << ": ";
-        if (i < 6)
-            cout << D[1][i];
-        else
-            cout << "UNKNOWN";
-        
-        cout << '\n';
+
+        cout << "Case " << c++ << ": " << D[1][i] << '\n';
     }
 }
