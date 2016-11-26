@@ -1,5 +1,5 @@
 #include <string>
-#include <stdio.h>
+#include <cstdio>
 #include <cmath>
 #include <iostream>
 #include <algorithm>
@@ -10,11 +10,7 @@ int n, root;
 
 bool IsPalindrome(string s)
 {
-    for (int i = 0; i < n; ++i)
-        if (s[i] != s[n - i - 1])
-            return false;  
-                
-    return true;
+    return equal(s.begin(), s.begin() + s.size()/2, s.rbegin());
 }
 
 bool ReIsPalindrome(string s)
