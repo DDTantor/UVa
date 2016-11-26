@@ -5,12 +5,7 @@ using namespace std;
 
 bool IsPalindrome(string s)
 {
-    int n = s.length();
-    for (int i = 0; i < n; ++i)
-        if (s[i] != s[n - i - 1])
-            return false;  
-                
-    return true;
+    return equal(s.begin(), s.begin() + s.size()/2, s.rbegin());
 }
 
 bool IsMirrored(string s)
