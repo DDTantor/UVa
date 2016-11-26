@@ -6,12 +6,7 @@ using namespace std;
 
 bool IsPalindrome(string s)
 {
-    int n = s.length();
-    for (int i = 0; i < n; ++i)
-        if (s[i] != s[n - i - 1])
-            return false;  
-                
-    return true;
+    return equal(s.begin(), s.begin() + s.size()/2, s.rbegin());
 }
 
 string Change(string s)
@@ -45,9 +40,7 @@ int main()
         int i = 0;
         do
         {
-            long int a = ToInt(s);
-            long int b = ToInt(Change(s));
-            s = to_string(a + b);
+            s = to_string(stol(s) + stol(Change(s)));
             ++i;
         }while (!IsPalindrome(s));
         cout << i << " " << s << '\n';
