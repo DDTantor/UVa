@@ -11,12 +11,7 @@ bool IsPalindrome(string s)
     if (M[s]++)
         return false;
         
-    int n = s.length();
-    for (int i = 0; i < n; ++i)
-        if (s[i] != s[n - i - 1])
-            return false;  
-                
-    return true;
+    return equal(s.begin(), s.begin() + s.size()/2, s.rbegin());
 }
 
 int main()
