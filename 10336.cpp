@@ -13,11 +13,6 @@ int m, n;
 int dx[4] = {0, 1, 0, -1};
 int dy[4] = {-1, 0, 1, 0};
 
-bool cmp(ic a, ic b)
-{
-    return (a.first > b.first || (a.first == b.first && a.second < b.second));
-}
-
 void fill(int y, int x, string S[100], char c) 
 {
     if (x >= 0 && y >= 0 && x < n && y < m && S[y][x] == c)
@@ -36,8 +31,8 @@ int main()
     {
         cin >> m >> n;
         string S[100];
-        bool(*cm)(ic, ic) = cmp;
-        set<ic, bool(*)(ic, ic)> res (cm);
+        auto cmp = [](ic a, ic b)->bool{return (a.first > b.first || (a.first == b.first && a.second < b.second));};
+        set<ic, decltype(cmp)> res (cmp);
         for (int i = 0; i < m; ++i)
             cin >> S[i];
         
