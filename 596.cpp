@@ -89,6 +89,7 @@ vector<point> CH(vector<point>& P)
 
 int main()
 {
+    ios::sync_with_stdio(false);
     vector<point> P;
     point p;
     char c;
