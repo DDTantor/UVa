@@ -25,7 +25,7 @@ int main()
             for (int j = i + 1; j < n; ++j)
                 m = max(m, GCD(A[i], A[j]));
             
-        cout << m << '\n';
+        cout << n << ' ' << m << '\n';
     }
     
 }
