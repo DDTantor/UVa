@@ -16,10 +16,6 @@ int main()
             for (ll j = i; j < MAX_N; j += i)
                 sieve[j]++;
     
-    
     while (cin >> N, N)
-    {
-        ll cnt = 0;
         cout << N << " : " << sieve[N] << '\n';
-    }
 }
