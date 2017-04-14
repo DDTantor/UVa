@@ -68,5 +68,4 @@ int main()
         if (t)
             cout << '\n';
     }
-    
 }
