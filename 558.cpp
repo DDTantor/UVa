@@ -20,7 +20,7 @@ bool Solve()
         E.emplace_back(u, v, w);
     }
     
-    vi D(n, 100000);
+    vi D(n, 1000000);
     D[0] = 0;
     
     for (int i = 0; i < n; ++i)
