@@ -96,15 +96,6 @@ int main()
                 }
             }
         }
-        /*for (int i = 0; i < 500; ++i)
-        {
-            if (G[i].size())
-            {
-                for (ii t : G[i])
-                    cout << "OD " << i << " DO " << t.second << " ZA " << t.first << endl;
-                cout << endl;
-            }
-            }*/
         int t = dijkstra();
         if (t == -1)
             cout << "IMPOSSIBLE\n";
