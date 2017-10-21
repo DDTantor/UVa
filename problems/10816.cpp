@@ -14,7 +14,7 @@ typedef vector<ii> vii;
 typedef tuple<int, int, int> iii;
 typedef vector<iii> viii;
 typedef vector<viii> vviii;
-typedef vector<double> vi;
+typedef vector<int> vi;
 
 int V, E, s, t;
 vviii G;
