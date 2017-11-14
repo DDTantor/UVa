@@ -7,6 +7,7 @@ typedef vector<int> vi;
 
 int main()
 {
+    ios::sync_with_stdio(false);
     int n;
     while (cin >> n, n)
     {
