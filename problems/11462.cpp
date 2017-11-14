@@ -26,7 +26,5 @@ int main()
                 cout << (flag? " " : "") << i + m, --f[i], flag |= true;
 
         cout << '\n';
-    }
-        
-        
+    } 
 }
