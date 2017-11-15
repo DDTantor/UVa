@@ -1,6 +1,4 @@
 #include <iostream>
-#include <cstring>
-
 using namespace std;
 
 int n, m, A[1000], B[1000], dp[1000][1000], num[1000][1000];
@@ -30,7 +28,6 @@ int main()
             for (int j = 0; j < m; ++j)
             {
                 dp[i][j] = num[i][j] = 0;
-                
                 if (NA[i] == NB[j])
                 {
                     dp[i][j] = A[i] + B[j] + (i > 0 && j > 0? dp[i - 1][j - 1] : 0);
