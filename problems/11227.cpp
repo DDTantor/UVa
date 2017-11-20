@@ -41,14 +41,9 @@ int main()
         cout << "Data set #" << ++cs << " contains ";
         int best = 2;
         for (int i = 0; i < n; ++i)
-        {
             for (int j = i + 1; j < n; ++j)
-            {
                 for (int k = j + 1, cnt = 2; k < n; ++k)
                     best = max(cnt += aligned(i, j, k), best);
-
-            }
-        }
 
         if (n == 1)
             cout << "a single gnu.\n";
