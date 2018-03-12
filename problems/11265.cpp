@@ -11,10 +11,9 @@ using namespace std;
 struct point
 {
     double x, y;
-    point(){}
+    point() {}
     point(double x, double y) : x(x), y(y) {}
-    point operator -(point& b) {return point(x - b.x, y - b.y);}
-    bool operator ==(point& b) const {return x == b.x && y == b.y;}
+    bool operator < (point& b) {return x < b.x || (x == b.x && y < b.y);}
     friend istream& operator >>(istream& in, point& p) {return in >> p.x >> p.y;}
 };
 
@@ -26,9 +25,9 @@ bool ccw(point& p, point& q, point& r)
     return (p.x - q.x) * (p.y - r.y) - (p.y - q.y) * (p.x - r.x) > 0;
 }
 
-double norm(point a)
+double cross(point a, point o, point b)
 {
-    return hypot(a.x, a.y);
+    return (a.x - o.x) * (b.y - o.y) - (a.y - o.y) * (b.x - o.x);
 }
 
 double dot(point a, point b)
@@ -36,14 +35,10 @@ double dot(point a, point b)
     return a.x * b.x + a.y * b.y;
 }
 
-double cross(point a, point b)
+double angle(point a, point o, point b)
 {
-    return a.x * b.y - a.y * b.x;
-}
-
-double angle(point& a, point& o, point& b)
-{
-    return acos(dot(a - o, b - o) / (norm(a - o) * norm(b - o)));
+    point a_p = point(a.x - o.x, a.y - o.y), b_p = point(b.x - o.x, b.y - o.y);
+    return acos(dot(a_p, b_p) / sqrt(dot(a_p, a_p) * dot(b_p, b_p)));
 }
 
 point lineIntersectSeg(point& p, point& q, point& A, point& B)
@@ -56,19 +51,18 @@ point lineIntersectSeg(point& p, point& q, point& A, point& B)
     return point((p.x * v + q.x * u) / (u + v), (p.y * v + q.y * u) / (u + v));
 }
 
-bool inPolygon(point pt, vector<point>& P)
+bool InPolygon(point& p, const vector<point>& P)
 {
-    if(P.size() < 3)
-        return false;
     double sum = 0;
     for (int i = 0; i < P.size() - 1; ++i)
     {
-        if (ccw(pt, P[i], P[i + 1]))
-            sum += angle(P[i], pt, P[i + 1]);
+        if (cross(P[i], p, P[i + 1]) > 0)
+            sum += angle(P[i], p, P[i + 1]);
         else
-            sum -= angle(P[i], pt, P[i + 1]);
+            sum -= angle(P[i], p, P[i + 1]);
     }
-    return fabs(fabs(sum) - 2 * M_PI) < eps;
+    
+    return abs(abs(sum) - 2 * M_PI) < eps;
 }
 
 vector<point> cutPolygon(point& a, point& b, vector<point>& Q)
@@ -76,20 +70,20 @@ vector<point> cutPolygon(point& a, point& b, vector<point>& Q)
     vector<point> P;
     for (int i = 0; i < Q.size(); ++i)
     {
-        double left1 = cross(b - a, Q[i] - a), left2 = 0;
-        if (i != Q.size() - 1)
-            left2 = cross(b - a, Q[i + 1] - a);
+        double left1 = cross(b, Q[i], a), left2 = 0;
+        if (i != Q.size() - 1) 
+            left2 = cross(b, Q[i + 1], a);
+        
         if (left1 > -eps)
             P.push_back(Q[i]);
-        if (left1 * left2 < -eps)
-        {
-            point pt = lineIntersectSeg(Q[i], Q[i + 1], a, b);
-            P.push_back(pt);
-        }
-    }
-    if (!P.empty() && !(P.back() == P.front()))
-        P.push_back(P.front());
         
+        if (left1 * left2 < -eps)
+            P.push_back(lineIntersectSeg(Q[i], Q[i + 1], a, b));
+    }
+    
+    if (!P.empty() && !(P.back().x == P.front().x && P.back().y == P.front().y))
+        P.push_back(P.front());
+    
     return P;
 }
 
@@ -104,7 +98,7 @@ double Area(vector<point>& P)
         double y1 = P[i].y, y2 = P[i + 1].y;
         A += (x1 * y2 - x2 * y1);
     }
-    return 0.5 * fabs(A);
+    return 0.5 * abs(A);
 }
 
 int main()
@@ -123,7 +117,7 @@ int main()
         {
             point A, B;
             cin >> A >> B;
-            if (ccw(A, B, fn))
+            if (cross(A, fn, B) < -eps)
                 P = cutPolygon(A, B, P);
             else
                 P = cutPolygon(B, A, P);
