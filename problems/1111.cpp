@@ -31,26 +31,25 @@ double cross(point& o, point& a, point& b)
 
 vector<point> ConvexHull(vector<point>& P)
 {
-    int n = P.size(), k = 0;
     sort(P.begin(), P.end());
-    vector<point> H(2 * n);
-    for (int i = 0; i < n; ++i)
+    vector<point> H;
+    for (int i = 0; i < 2; ++i)
     {
-        while (k >= 2 && cross(H[k - 2], H[k - 1], P[i]) <= 0)
-            k--;
-        H[k++] = P[i];
+        int s = H.size();
+        for (point p : P)
+        {
+            while (H.size() >= s + 2 && cross(H[H.size() - 2], H[H.size() - 1], p) < 0)
+                H.pop_back();
+            
+            H.push_back(p);
+        }
+        
+        if (!i) H.pop_back();
+        reverse(P.begin(), P.end());
     }
     
-    for (int i = n - 2, t = k + 1; i >= 0; --i)
-    {
-        while (k >= t && cross(H[k - 2], H[k - 1], P[i]) <= 0)
-            k--;
-        H[k++] = P[i];
-    }
-    H.resize(k);
     return H;
 }
-
 
 int main()
 {
