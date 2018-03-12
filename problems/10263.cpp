@@ -1,72 +1,57 @@
-#include <iostream>
-#include <climits>
 #include <cmath>
+#include <iostream>
 #include <iomanip>
-
 using namespace std;
 
-struct vec
+#define eps 1e9
+
+struct point
 {
     double x, y;
-    vec(){}
-    vec(double x, double y) : x(x), y(y) {}
-    friend istream& operator >>(istream& in, vec& other){ return in >> other.x >> other.y;}
-    friend ostream& operator <<(ostream& out, vec& other){ return out << other.x << '\n' << other.y << '\n';}
-    vec operator -(const vec& other){ return vec (x - other.x, y - other.y);}
-    vec operator +(const vec& other){ return vec (x + other.x, y + other.y);} 
-}V[100];
+} P[10000];
 
-vec Pr;
-
-vec scale(vec v, double s)
+double dist(point A, point B)
 {
-    return vec(s * v.x, s * v.y);
+    return hypot(A.x - B.x, A.y - B.y);
 }
 
-double dot(vec a, vec b)
+double dot(point A, point B)
 {
-    return a.x * b.x + a.y * b.y;
+    return A.x * B.x + A.y * B.y;
 }
 
-double snorm(vec a)
+double distance(point S, point A, point B, point& res)
 {
-    return a.x * a.x + a.y * a.y;
-}
-
-double norm(vec a)
-{
-    return hypot(a.x, a.y);
-}
-
-
-double dist(vec p1, vec p2, vec M)
-{
-    double l = snorm(p2 - p1);
-    double t = max(0.0, min(1.0, dot(M - p1, p2 - p1) / l));
-    Pr = p1 + scale(p2 - p1, t);
-    return hypot(M.x - Pr.x, M.y - Pr.y);  
+    point M = S;
+    M.x -= A.x; M.y -= A.y;
+    B.x -= A.x; B.y -= A.y;
+    double lambda = max(0.0, min(1.0, dot(M, B) / dot(B, B)));
+    res.x = lambda * B.x + A.x;
+    res.y = lambda * B.y + A.y;
+    return dist(res, S);
 }
 
 int main()
 {
-    vec M;
+    int n;
+    point M;
     cout << fixed << setprecision(4);
-    while (cin >> M)
+    while (cin >> M.x >> M.y >> n)
     {
-        int n;
-        cin >> n;
         for (int i = 0; i < n + 1; ++i)
-            cin >> V[i];
-            
-        double min = INT_MAX;
-        vec Mvec;
-        
-        for (int i = 1; i < n + 1; ++i)
+            cin >> P[i].x >> P[i].y;
+
+        // Procesuirati na inputu
+        point res;
+        double m = 1e9;
+        for (int i = 0; i < n; ++i)
         {
-            double d = dist(V[i - 1], V[i], M);
-            if (d < min)
-                min = d, Mvec = Pr;
+            point pr;
+            double a = distance(M, P[i], P[i + 1], pr);
+            if (a < m)
+                m = a, res = pr;
         }
-        cout << Mvec;
+
+        cout << res.x << '\n' << res.y << '\n';
     }
 }
