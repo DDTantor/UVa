@@ -9,15 +9,15 @@ using namespace std;
 struct point
 {
     double x, y;
-    point(){}
+    point() {}
     point(double x, double y) : x(x), y(y) {}
-    friend istream& operator >> (istream& in, point& p) {return in >> p.x >> p.y;}
-    point operator -(point a) {return point(x - a.x, y - a.y);}
+    bool operator < (point& b) {return x < b.x || (x == b.x && y < b.y);}
+    friend istream& operator >>(istream& in, point& p) {return in >> p.x >> p.y;}
 };
 
-double cross(point a, point b)
+double cross(point a, point o, point b)
 {
-    return a.x * b.y - a.y * b.x;
+    return (a.x - o.x) * (b.y - o.y) - (a.y - o.y) * (b.x - o.x);
 }
 
 double dot(point a, point b)
@@ -25,31 +25,24 @@ double dot(point a, point b)
     return a.x * b.x + a.y * b.y;
 }
 
-double snorm(point a)
-{
-    return a.x * a.x + a.y * a.y;
-}
-
 double angle(point a, point o, point b)
 {
-    return acos(dot(a - o, b - o) / sqrt(snorm(a - o) * snorm(b - o)));
+    point a_p = point(a.x - o.x, a.y - o.y), b_p = point(b.x - o.x, b.y - o.y);
+    return acos(dot(a_p, b_p) / sqrt(dot(a_p, a_p) * dot(b_p, b_p)));
 }
 
-bool ccw(point p, point q, point r)
+bool InPolygon(point& p, const vector<point>& P)
 {
-    return cross(p - q, p - r) > 0;
-}
-bool inPolygon(point p, const vector<point>& P)
-{
-    double sum = 0, n = P.size();
+    double sum = 0;
     for (int i = 0; i < P.size() - 1; ++i)
     {
-        if (ccw(p, P[i], P[i + 1]))
+        if (cross(P[i], p, P[i + 1]) > 0)
             sum += angle(P[i], p, P[i + 1]);
         else
             sum -= angle(P[i], p, P[i + 1]);
     }
-    return fabs(fabs(sum) - 2 * M_PI) < eps;
+    
+    return abs(abs(sum) - 2 * M_PI) < eps;
 }
 
 int main()
@@ -61,9 +54,10 @@ int main()
         vector<point> P(n + 1);
         for (int i = 0; i < n; ++i)
             cin >> P[i];
+        
         P[n] = P[0];
         cin >> pt;
-        if (inPolygon(pt, P))
+        if (InPolygon(pt, P))
             cout << "T\n";
         else
             cout << "F\n";
