@@ -51,8 +51,7 @@ int main()
         {
             f = P[i];
             sort(P, P + n, cmp);
-            int cnt = 2;
-            for (int i = 2; i < n; ++i)
+            for (int i = 2, cnt = 2; i < n; ++i)
             {
                 cnt = (cross(f, P[i - 1], P[i]) == 0? cnt + 1 : 2);
                 best = max(cnt, best);
