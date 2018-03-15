@@ -1,7 +1,6 @@
 #include <iostream>
 #include <algorithm>
 #include <cmath>
-#include <vector>
 
 using namespace std;
 
@@ -16,7 +15,7 @@ struct point
     {
         in >> p.x >> p.y;
     }   
-}p, f;
+}P[700], f;
 
 int dist(point a, point b)
 {
@@ -44,15 +43,14 @@ int main()
     cin.ignore(2);
     while (t--)
     {
-        vector<point> P;
+        int n = 0, best = 2;
         while (cin.peek() != '\n' && !cin.eof())
-            cin >> p, P.push_back(p), cin.ignore();
+            cin >> P[n++], cin.ignore();
 
-        int n = P.size(), best = 2;
         for (int i = 0; i < n; ++i)
         {
             f = P[i];
-            sort(P.begin(), P.end(), cmp);
+            sort(P, P + n, cmp);
             int cnt = 2;
             for (int i = 2; i < n; ++i)
             {
