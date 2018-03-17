@@ -44,7 +44,6 @@ double UnionArea(int e)
                     double y = rec[Eh[j].ind][Eh[j].type].y;
                     len += (cnt > 0? y - prevy: 0), cnt += (Eh[j].type == 0? 1 : -1), prevy = y; 
                 }
-                    
             }
 
             res += len * Dx;
