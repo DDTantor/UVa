@@ -34,10 +34,9 @@ double dist(point a, point b)
     return hypot(a.x - b.x, a.y - b.y);
 }
 
-double angle(point a, point o, point b)
+double angle(point a, point b)
 {
-    point a_p = point(a.x - o.x, a.y - o.y), b_p = point(b.x - o.x, b.y - o.y);
-    return acos(dot(a_p, b_p) / sqrt(dot(a_p, a_p) * dot(b_p, b_p)));
+    return acos(dot(a, b) / sqrt(dot(a, a) * dot(b, b)));
 }
 
 double Area(vector<point>& P)
@@ -90,7 +89,7 @@ double DistToSeg(point A, point B, point p, point& r)
 
 double CircSeg(point a, point b, double r)
 {
-    return r * r / 2 * (angle(a, point(0, 0), b) - sin(angle(a, point(0, 0),  b)));
+    return r * r / 2 * (angle(a, b) - sin(angle(a, b)));
 }
 
 double CircTri(point a, point b, double r)
@@ -116,11 +115,12 @@ double CircTri(point a, point b, double r)
             Area(q1, q2, b) + CircSeg(q1, q2, r);
     }
 
-    return 0.5 * r * r * angle(a, point(0, 0), b);
+    return 0.5 * r * r * angle(a, b);
 }
 
 int main()
 {
+    ios::sync_with_stdio(false);
     int n;
     double r;
     while (cin >> n >> r)
