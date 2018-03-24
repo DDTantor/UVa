@@ -12,14 +12,13 @@ typedef vector<int> vi;
 
 const int maxn = 100;
 
-int t, n;
-int L, W;
+int t, n, L, W;
 
 struct point
 {
     int x, y;
     point(){}
-    point(double x, double y) : x(x), y(y) {}
+    point(int x, int y) : x(x), y(y) {}
     friend istream& operator>>(istream& in, point &p)
     {
         return in >> p.x >> p.y;
