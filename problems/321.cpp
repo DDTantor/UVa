@@ -3,8 +3,6 @@
 #include <cstring>
 #include <tuple>
 #include <queue>
-#include <bitset>
-
 using namespace std;
 
 typedef vector<int> vi;
@@ -23,7 +21,6 @@ int bfs()
     {
         int st, dist, u;
         tie(st, dist, u) = Q.front(); Q.pop();
-        bitset<10> X(st);
         if (u == r - 1 && st == (1 << (r - 1)))
             return dist;
 
