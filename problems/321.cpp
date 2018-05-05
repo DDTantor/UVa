@@ -100,7 +100,6 @@ int main()
             cout << '\n';
         }
         else
-            cout << "The problem cannot be solved.\n\n";
-        
+            cout << "The problem cannot be solved.\n\n";        
     }
 }
