@@ -51,7 +51,7 @@ string solve()
 
         reflect();
         if (cmp())
-            return "reflected vertically";
+            return "reflected vertically.";
     }
 
     return "improperly transformed.";
