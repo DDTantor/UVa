@@ -1,20 +1,21 @@
 #include <iostream>
 #include <algorithm>
 #include <cstring>
+#include <array>
 
 using namespace std;
 
 int cs = 1, n;
-string A[10], B[10], tmp[10];
+array<array<char, 10>, 10> A, B, tmp;
+
 
 void rotate()
 {
-    copy(A, A + 10, tmp);
     for (int i = 0; i < n; ++i)
         for (int j = 0; j < n; ++j)
             tmp[i][j] = A[n - 1 - j][i];
 
-    copy(tmp, tmp + 10, A);
+    A = tmp;
 }
 
 void reflect()
@@ -24,19 +25,9 @@ void reflect()
             swap(A[i][j], A[n - 1 - i][j]);
 }
 
-bool cmp()
-{
-    for (int i = 0; i < n; ++i)
-        for (int j = 0; j < n; ++j)
-            if (A[i][j] != B[i][j])
-                return false;
-
-    return true;
-}
-
 string solve()
 {
-    if (cmp())
+    if (A == B)
         return "preserved.";
 
     string t = "";
@@ -45,12 +36,12 @@ string solve()
         for (int k = 1; k <= 4; ++k)
         {
             rotate();
-            if (cmp())
+            if (A == B)
                 return t + "rotated " + to_string(k * 90) + " degrees.";
         }
 
         reflect();
-        if (cmp())
+        if (A == B)
             return "reflected vertically.";
     }
 
@@ -61,9 +52,19 @@ int main()
 {
     while (cin >> n)
     {
+        for (int i = 0; i < 10; ++i)
+            for (int j = 0; j < 10; ++j)
+                A[i][j] = B[i][j] = tmp[i][j] = ' ';
+        
         cout << "Pattern " << cs++ << " was ";
         for (int i = 0; i < n; ++i)
-            cin >> A[i] >> B[i];
+        {
+            for (int j = 0; j < n; ++j)
+                cin >> A[i][j];
+
+            for (int j = 0; j < n; ++j)
+                cin >> B[i][j];
+        }
         
         cout << solve() << '\n';
     }
